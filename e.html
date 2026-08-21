@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>방화동E편한세상 주차 문제 종합 보고서</title>
+  <style>
+    :root {
+      --paper: #fbfaf6;
+      --surface: #ffffff;
+      --ink: #202520;
+      --muted: #586158;
+      --line: #d8ddd4;
+      --green: #215f45;
+      --green-soft: #e7f1ea;
+      --amber: #8a4f08;
+      --amber-soft: #fff2d8;
+      --blue: #235d78;
+      --blue-soft: #e8f2f7;
+      --max-width: 920px;
+      --body-size: 19px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Pretendard, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      font-size: var(--body-size);
+      line-height: 1.78;
+      letter-spacing: -0.015em;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+
+    a {
+      color: #164f70;
+      text-decoration-thickness: 1.5px;
+      text-underline-offset: 3px;
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 4px solid #f2b84b;
+      outline-offset: 3px;
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--line);
+      background: rgba(251, 250, 246, 0.96);
+      backdrop-filter: blur(10px);
+    }
+
+    .toolbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      width: min(calc(100% - 32px), var(--max-width));
+      min-height: 64px;
+      margin: 0 auto;
+    }
+
+    .toolbar strong { font-size: 16px; }
+
+    .tools { display: flex; gap: 8px; }
+
+    button {
+      min-width: 52px;
+      min-height: 46px;
+      padding: 8px 14px;
+      border: 1px solid #aeb7ac;
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--ink);
+      font: inherit;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:hover { background: #eef2ec; }
+
+    main {
+      width: min(calc(100% - 32px), var(--max-width));
+      margin: 0 auto;
+      padding: 44px 0 80px;
+    }
+
+    header { margin-bottom: 36px; }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--green);
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    h1, h2, h3 {
+      margin-top: 0;
+      line-height: 1.34;
+      letter-spacing: -0.035em;
+      text-wrap: balance;
+    }
+
+    h1 {
+      max-width: 760px;
+      margin-bottom: 18px;
+      font-size: clamp(34px, 6vw, 52px);
+    }
+
+    h2 {
+      margin-bottom: 18px;
+      font-size: clamp(27px, 4.4vw, 36px);
+    }
+
+    h3 {
+      margin-bottom: 10px;
+      font-size: 23px;
+    }
+
+    p { margin: 0 0 18px; }
+    ul, ol { margin: 0; padding-left: 1.35em; }
+    li + li { margin-top: 10px; }
+
+    .lead {
+      max-width: 780px;
+      color: #3d473e;
+      font-size: 21px;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 18px;
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    section {
+      margin-top: 32px;
+      padding: 34px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--surface);
+      box-shadow: 0 12px 32px rgba(35, 48, 38, 0.05);
+    }
+
+    .conclusion {
+      border: 2px solid #8db69d;
+      background: linear-gradient(145deg, #f2f8f3, #ffffff 70%);
+    }
+
+    .conclusion .big {
+      margin-bottom: 18px;
+      color: #173f2f;
+      font-size: clamp(25px, 4vw, 34px);
+      font-weight: 800;
+      line-height: 1.48;
+    }
+
+    .callout {
+      margin: 22px 0 0;
+      padding: 20px 22px;
+      border-left: 6px solid var(--amber);
+      border-radius: 8px 16px 16px 8px;
+      background: var(--amber-soft);
+    }
+
+    .callout strong { color: #6e3c00; }
+
+    .principles {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .principle-main,
+    .principle-list {
+      padding: 24px;
+      border-radius: 16px;
+    }
+
+    .principle-main {
+      background: var(--green);
+      color: #fff;
+    }
+
+    .principle-main h3 { color: #fff; }
+    .principle-main p { margin: 0; color: #edf6f0; }
+
+    .principle-list {
+      border: 1px solid var(--line);
+      background: #fafbf9;
+    }
+
+    .principle-list ul { margin-top: 4px; }
+
+    .agreement-points {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .agreement-point {
+      padding: 20px;
+      border-left: 5px solid var(--green);
+      border-radius: 7px 14px 14px 7px;
+      background: #f4f7f3;
+    }
+
+    .agreement-point strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--green);
+    }
+
+    .vote-flow {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .vote-flow article {
+      padding: 23px;
+      border-radius: 16px;
+      background: var(--blue-soft);
+    }
+
+    .vote-flow article:last-child { background: var(--green-soft); }
+
+    .law-basis {
+      margin-top: 22px;
+      padding: 22px;
+      border: 1px solid #b7c9d1;
+      border-radius: 16px;
+      background: #f5fafc;
+    }
+
+    .law-basis p:last-child { margin-bottom: 0; }
+
+    .service-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .service {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 20px;
+      padding: 21px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fafbf9;
+    }
+
+    .service h3 { margin-bottom: 5px; }
+    .service p { margin: 0; color: #465047; }
+
+    .service-name .tag { margin-bottom: 6px; }
+
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 24px 0 6px;
+    }
+
+    .fact {
+      padding: 20px;
+      border-radius: 14px;
+      background: var(--green-soft);
+    }
+
+    .fact .number {
+      display: block;
+      color: var(--green);
+      font-size: 31px;
+      font-weight: 850;
+      line-height: 1.25;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .fact .label {
+      display: block;
+      margin-top: 6px;
+      color: #3f5548;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .plain-note {
+      margin-top: 20px;
+      padding: 18px 20px;
+      border-radius: 14px;
+      background: var(--blue-soft);
+      color: #244859;
+    }
+
+    .steps {
+      display: grid;
+      gap: 18px;
+      margin-top: 22px;
+      counter-reset: step;
+    }
+
+    .step {
+      position: relative;
+      padding: 4px 0 4px 66px;
+      min-height: 58px;
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: grid;
+      width: 48px;
+      height: 48px;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--green);
+      color: #fff;
+      font-size: 21px;
+      font-weight: 850;
+    }
+
+    .step p { margin-bottom: 0; color: #465047; }
+
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .compare article {
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fafbf9;
+    }
+
+    .compare article:last-child { background: #f1f7fa; }
+
+    .request-list {
+      margin-top: 22px;
+      padding: 22px 24px 22px 50px;
+      border-radius: 16px;
+      background: #f5f5f0;
+    }
+
+    .agency {
+      padding: 20px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .agency:first-of-type { border-top: 0; padding-top: 2px; }
+    .agency:last-of-type { padding-bottom: 0; }
+    .agency p { margin: 0; color: #465047; }
+
+    .tag {
+      display: inline-block;
+      margin-bottom: 8px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--green-soft);
+      color: var(--green);
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    details {
+      margin-top: 16px;
+      border-top: 1px solid var(--line);
+      padding-top: 16px;
+    }
+
+    summary {
+      min-height: 48px;
+      cursor: pointer;
+      color: var(--green);
+      font-weight: 800;
+    }
+
+    .source-list {
+      margin-top: 14px;
+      font-size: 16px;
+      word-break: normal;
+      overflow-wrap: anywhere;
+    }
+
+    .same-size { font-size: 1em; }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    footer {
+      margin-top: 34px;
+      color: var(--muted);
+      font-size: 15px;
+      text-align: center;
+    }
+
+    @media (max-width: 720px) {
+      .toolbar strong { display: none; }
+      .toolbar-inner { justify-content: flex-end; }
+      main { width: min(calc(100% - 22px), var(--max-width)); padding-top: 28px; }
+      section { padding: 25px 20px; border-radius: 18px; }
+      .facts, .compare, .principles, .agreement-points, .vote-flow, .service { grid-template-columns: 1fr; }
+      .fact { display: flex; align-items: baseline; gap: 12px; }
+      .fact .label { margin-top: 0; }
+    }
+
+    @media print {
+      :root { --body-size: 12pt; }
+      body { background: #fff; line-height: 1.62; }
+      .toolbar { display: none; }
+      main { width: 100%; padding: 0; }
+      header { margin-bottom: 18pt; }
+      section {
+        margin-top: 16pt;
+        padding: 18pt;
+        border-radius: 0;
+        box-shadow: none;
+      }
+      .step, .fact, .agency, .compare article, .callout, .agreement-point, .vote-flow article,
+      .principle-main, .principle-list, .law-basis, .service {
+        break-inside: avoid;
+        border: 1px solid #777;
+      }
+      .principle-main {
+        background: #fff !important;
+        color: #111 !important;
+      }
+      .principle-main h3,
+      .principle-main p { color: #111 !important; }
+      a { color: inherit; text-decoration: none; }
+      details { display: block; }
+      details > * { display: block; }
+      summary { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar" role="region" aria-label="읽기 도구">
+    <div class="toolbar-inner">
+      <strong>읽기 편한 크기로 조절할 수 있습니다</strong>
+      <div class="tools">
+        <button type="button" id="smaller" aria-label="글자 작게">가−</button>
+        <button type="button" id="larger" aria-label="글자 크게">가+</button>
+        <button type="button" id="print" aria-label="문서 인쇄">인쇄</button>
+        <span id="size-status" class="sr-only" aria-live="polite">기본 글자 크기</span>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <header>
+      <p class="eyebrow">주민 공유용 · 종합 판단</p>
+      <h1>방화동E편한세상<br>주차 문제 종합 보고서</h1>
+      <p class="lead">주민의 편안한 일상을 가장 먼저 생각하고, 확인된 사실과 법에 따라 함께 해결할 수 있는 순서를 정리했습니다. 특정 사람이나 업체의 잘못을 단정하기보다 주민·관리사무소·입주자대표회의가 같은 자료를 보고 결정하는 데 목적이 있습니다.</p>
+      <div class="meta">
+        <span>작성일 2026년 8월 21일</span>
+        <span>대상 279세대</span>
+        <span>법률 자문이 아닌 주민 검토 자료</span>
+      </div>
+    </header>
+
+    <section class="conclusion" aria-labelledby="conclusion-title">
+      <h2 id="conclusion-title">먼저 결론입니다</h2>
+      <p class="big">차단기를 바꿀지, 경비원을 늘릴지부터 정하면 안 됩니다. 먼저 등록차량 명단을 바로잡고 실제 주차 상황을 확인해야 합니다.</p>
+      <p>현재 알려진 등록차량은 약 460~480대입니다. 하지만 이 숫자만으로 외부차량이 몇 대인지 알 수는 없습니다. 이사 간 세대의 차량, 바뀐 차량, 가족·회사 차량, 한 세대의 여러 차량이 함께 들어 있을 수 있기 때문입니다.</p>
+      <p>등록 명단이 틀리면 새 차단기도 잘못된 차량을 통과시킵니다. 경비원을 늘려도 정상 차량과 잘못 등록된 차량을 구분하기 어렵습니다.</p>
+      <div class="callout">
+        <strong>가장 먼저 할 일</strong><br>
+        현행 주차 규정과 의결 절차를 확인한 뒤 기존 등록의 종료일을 정하고, 2~3주 동안 필요한 차량만 다시 등록하는 것입니다. 미처 신청하지 못한 정상 차량을 위한 유예기간과 임시 통과 방법도 함께 마련해야 합니다. 그 뒤 실제 야간 주차대수와 방문차량 수를 확인하면 필요한 대책이 보입니다.
+      </div>
+    </section>
+
+    <section aria-labelledby="principles-title">
+      <h2 id="principles-title">함께 적용할 판단 기준</h2>
+      <div class="principles">
+        <article class="principle-main">
+          <h3>주민의 기본 생활이 먼저입니다</h3>
+          <p>늦은 밤에도 안전하게 주차하고, 출입구와 소방통로를 지키며, 고령층이나 스마트폰을 쓰지 않는 주민도 불편 없이 이용할 수 있어야 합니다.</p>
+        </article>
+        <article class="principle-list">
+          <ul>
+            <li><strong>사실과 법</strong>을 확인한 뒤 판단합니다.</li>
+            <li>모든 세대에 적용할 수 있는 <strong>공정한 기준</strong>을 만듭니다.</li>
+            <li>관리사무소와 용역업체를 <strong>해결 과정의 협력자</strong>로 봅니다.</li>
+            <li>주민 동의가 필요하면 <strong>단지 절차에 맞는 전자투표</strong>를 활용합니다.</li>
+          </ul>
+        </article>
+      </div>
+      <h3 style="margin-top: 28px;">공감대를 만들기 위한 기준</h3>
+      <div class="agreement-points">
+        <div class="agreement-point"><strong>안전</strong>출입구·소방통로·보행 공간은 항상 확보합니다.</div>
+        <div class="agreement-point"><strong>공정</strong>같은 조건의 차량에는 같은 기준을 적용합니다.</div>
+        <div class="agreement-point"><strong>투명</strong>비용과 주차 현황을 개인정보 없이 공개합니다.</div>
+        <div class="agreement-point"><strong>배려</strong>앱과 전화·인터폰·방문 접수를 함께 둡니다.</div>
+        <div class="agreement-point"><strong>검증</strong>큰돈을 쓰기 전에 재등록과 실제 주차 조사를 먼저 합니다.</div>
+        <div class="agreement-point"><strong>합의</strong>주민 의견을 충분히 듣고, 관리규약이 정한 의결·동의 절차에 따라 정합니다.</div>
+      </div>
+    </section>
+
+    <section aria-labelledby="known-title">
+      <h2 id="known-title">현재까지 알 수 있는 내용</h2>
+      <div class="facts" role="group" aria-label="주요 숫자">
+        <div class="fact">
+          <span class="number">279</span>
+          <span class="label">전체 세대</span>
+        </div>
+        <div class="fact">
+          <span class="number">460 / 약 480</span>
+          <span class="label">사용자 제공 수치 / 주민 게시글 언급</span>
+        </div>
+        <div class="fact">
+          <span class="number">24명</span>
+          <span class="label">온라인 찬성 투표 참여자</span>
+        </div>
+      </div>
+      <ul>
+        <li>2026년 8월 입주자대표회의에서 주차 문제가 논의됐다는 주민 게시글이 있습니다.</li>
+        <li>게시글상 경비원 1명 충원과 등록차량 재확인 방향이 의결된 것으로 보입니다.</li>
+        <li>차단기와 방문차량 등록 시스템 도입을 원하는 주민 의견도 있습니다.</li>
+        <li>온라인 투표는 찬성 24명, 반대 0명이지만 전체 주민의 공식 결정으로 볼 수는 없습니다.</li>
+      </ul>
+      <div class="plain-note">
+        <strong>중요:</strong> 460대와 480대 중 어느 숫자가 맞는지, 실제 주차면이 몇 면인지, 외부차량이 몇 대인지는 관리사무소 기록으로 다시 확인해야 합니다.
+      </div>
+    </section>
+
+    <section aria-labelledby="unknown-title">
+      <h2 id="unknown-title">아직 확인되지 않은 핵심 정보</h2>
+      <ul>
+        <li>차량이 없는 세대, 1대·2대·3대 이상인 세대의 수</li>
+        <li>이사·폐차·차량 변경 뒤에도 남아 있는 등록 건수</li>
+        <li>밤 10시 이후 실제로 주차된 차량 수</li>
+        <li>하루에 들어오는 방문차량 수와 머무는 시간</li>
+        <li>현재 차단기의 고장 여부와 수리 가능 여부</li>
+        <li>경비원 1명 추가 시 업무, 근무시간, 연간 비용, 세대당 부담액</li>
+        <li>차단기 수리·교체 및 차량번호 인식 시스템의 설치비와 유지비</li>
+      </ul>
+      <p class="plain-note">이 정보가 없으면 “경비원이 더 싸다”, “차단기가 더 낫다”, “외부차량이 많다”는 어느 주장도 확인할 수 없습니다.</p>
+    </section>
+
+    <section aria-labelledby="plan-title">
+      <h2 id="plan-title">권장 해결 순서</h2>
+      <div class="steps">
+        <article class="step">
+          <h3>등록차량을 다시 받습니다</h3>
+          <p>현행 규정과 의결 절차를 먼저 확인합니다. 기존 등록의 종료일을 미리 두 번 이상 알리고, 2~3주 동안 재등록을 받습니다. 온라인 신청과 관리사무소 방문 접수를 함께 운영하고, 유예기간과 임시 통과 방법을 두어 스마트폰 사용이 어렵거나 장기간 집을 비운 주민도 불편하지 않게 합니다.</p>
+        </article>
+        <article class="step">
+          <h3>개인정보를 뺀 결과를 공개합니다</h3>
+          <p>다시 확인된 전체 차량 수, 차량 0대·1대·2대·3대 이상 세대 수, 삭제된 미확인 차량 수를 공개합니다. 세대 번호와 차량번호는 공개하지 않습니다. 재등록 때는 필요한 서류만 확인하고, 보관 목적·기간·폐기일을 미리 알립니다.</p>
+        </article>
+        <article class="step">
+          <h3>2~4주 동안 실제 주차 상황을 잽니다</h3>
+          <p>밤 10시·자정·새벽 2시의 주차대수, 방문차량 수, 이중주차와 통행방해 건수를 기록합니다. 장비가 없어도 수기로 시작할 수 있습니다.</p>
+        </article>
+        <article class="step">
+          <h3>주차 규칙을 현실에 맞게 고칩니다</h3>
+          <p>기본차량, 추가차량, 방문차량, 간병·요양·공사 차량의 기준을 나눕니다. 추가차량 요금이나 제한은 주차면 여유, 주민 의견, 관리규약 절차를 확인한 뒤 정합니다.</p>
+        </article>
+        <article class="step">
+          <h3>그다음 사람과 장비의 비용을 비교합니다</h3>
+          <p>경비원 증원, 기존 차단기 수리, 차량번호를 자동으로 읽는 차단기, 방문차량 등록 기능을 같은 조건으로 비교합니다. 설치비만 보지 말고 3년·5년 동안 드는 전체 비용과 고장 대응도 함께 봅니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="choice-title">
+      <h2 id="choice-title">경비원과 자동 차단기, 이렇게 봐야 합니다</h2>
+      <div class="compare">
+        <article>
+          <span class="tag">경비원 증원</span>
+          <h3>사람이 필요한 일을 할 수 있습니다</h3>
+          <ul>
+            <li>방문객 안내와 현장 대응에 유리합니다.</li>
+            <li>다른 경비 업무도 맡을 수 있습니다.</li>
+            <li>한 명만으로 24시간 주차 통제를 맡기는 것은 어렵습니다.</li>
+            <li>인건비가 매년 계속 듭니다.</li>
+          </ul>
+        </article>
+        <article>
+          <span class="tag">차량번호를 자동으로 읽는 차단기</span>
+          <h3>등록된 차량을 자동으로 관리합니다</h3>
+          <ul>
+            <li>출입 기록으로 반복 차량을 확인할 수 있습니다.</li>
+            <li>방문차량은 앱과 전화·인터폰을 함께 쓸 수 있습니다.</li>
+            <li>처음 설치하는 비용과 계속 드는 유지비가 있습니다.</li>
+            <li>등록 명단이 틀리면 자동으로 잘못 운영됩니다.</li>
+          </ul>
+        </article>
+      </div>
+      <p class="plain-note"><strong>종합 판단:</strong> 둘 중 하나를 무조건 고르는 문제가 아닙니다. 정확한 등록 명단과 분명한 주차 규칙을 먼저 만들고, 필요한 만큼 사람과 장비를 조합하는 것이 안전합니다.</p>
+    </section>
+
+    <section aria-labelledby="vote-title">
+      <h2 id="vote-title">전자투표로 주민 의견을 모으는 방법</h2>
+      <p>아파트아이 외에도 주민 의견과 동의를 전자로 받을 수 있는 방법이 있습니다. 우리 단지에서 이미 사용하는 서비스가 있다면 그 기능을 먼저 확인하고, 사용할 수 없거나 비용·기능이 맞지 않으면 아래 대안을 같은 조건으로 비교하는 것이 좋습니다.</p>
+
+      <div class="service-list" role="list" aria-label="전자투표 서비스 비교">
+        <article class="service" role="listitem">
+          <div class="service-name">
+            <span class="tag">현재 서비스 확인</span>
+            <h3>아파트아이</h3>
+          </div>
+          <p>전자투표 제공 여부와 우리 단지 계약에 해당 기능이 포함됐는지 먼저 확인합니다. 사용할 수 있다면 별도 서비스를 도입하지 않아도 되지만, 본인확인과 결과증명서 제공 여부도 함께 확인해야 합니다.</p>
+        </article>
+        <article class="service" role="listitem">
+          <div class="service-name">
+            <span class="tag">공공지원 서비스</span>
+            <h3>아파트 e투표</h3>
+          </div>
+          <p>국토교통부·LH 중앙공동주택관리지원센터가 안내하는 공동주택 전용 서비스입니다. 모든 공동주택이 이용 대상이며 휴대전화·PC 본인인증, 문자 안내, 투표율과 결과 확인을 지원합니다. 이용 문의는 <a href="tel:16007004">1600-7004</a>, 기술지원은 <a href="tel:07077917200">070-7791-7200</a>입니다.</p>
+        </article>
+        <article class="service" role="listitem">
+          <div class="service-name">
+            <span class="tag">민간 대안</span>
+            <h3>아파트스토리</h3>
+          </div>
+          <p>업체 안내상 비회원도 선거인명부에 따른 링크와 본인인증으로 참여할 수 있고, 전자투표·전자서명·소유주 동의 기능을 제공합니다. 실제 법정 동의에 사용할 때는 안건별 투표권자와 결과자료 형식을 확인해야 합니다.</p>
+        </article>
+        <article class="service" role="listitem">
+          <div class="service-name">
+            <span class="tag">통합 앱 대안</span>
+            <h3>아파트너</h3>
+          </div>
+          <p>전자투표와 문자투표 자료를 제공하며, 방문차량·주차관리 기능도 함께 안내하고 있습니다. 주차관리까지 통합해 검토할 때 후보가 될 수 있지만, 전자투표만 필요한 경우에는 전체 계약 범위와 비용을 따로 비교해야 합니다.</p>
+        </article>
+        <article class="service" role="listitem">
+          <div class="service-name">
+            <span class="tag">비회원 참여 대안</span>
+            <h3>아파트리</h3>
+          </div>
+          <p>업체 안내상 앱이나 회원가입 없이 본인인증 후 투표할 수 있고, 세대주·배우자·세대원 등 투표 대상자를 구분하는 기능을 제공합니다. 실제 안건에 맞는 투표권자 설정과 결과자료 제공 여부는 별도로 확인해야 합니다.</p>
+        </article>
+      </div>
+
+      <div class="callout">
+        <strong>서울시 비용지원 확인</strong><br>
+        서울시 공동주택 통합정보마당은 분양아파트의 온라인투표 이용료와 현장지원비를 투표율에 따라 지원하는 제도를 안내하고 있습니다. 의무관리대상과 소규모 아파트 모두 대상이지만, 해당 연도 예산 범위와 선착순 조건이 있습니다. 투표 전에 자치구의 지원 심의·결정을 받고, 투표 시행 후 증빙자료로 비용을 청구하는 절차이므로 강서구청에 2026년 지원 가능 여부와 신청 시점을 먼저 확인해야 합니다.
+      </div>
+
+      <div class="vote-flow">
+        <article>
+          <span class="tag">1단계 · 의견조사</span>
+          <h3>먼저 공통 방향을 확인합니다</h3>
+          <p>재등록과 실제 주차 조사가 필요하다고 보는지, 고령층을 위한 전화·방문 접수가 필요한지, 비용 비교에서 무엇을 중요하게 볼지 묻습니다. 이 단계는 주민 생각을 확인하는 조사입니다.</p>
+        </article>
+        <article>
+          <span class="tag">2단계 · 공식 의사결정</span>
+          <h3>자료 공개 후 필요한 절차를 진행합니다</h3>
+          <p>재등록 결과, 실제 주차대수, 경비원과 장비의 3년·5년 비용을 공개합니다. 그 뒤 안건별 관리규약을 확인해 입주자대표회의 의결, 주민 의견조사 또는 법정 동의 가운데 필요한 절차를 진행합니다.</p>
+        </article>
+      </div>
+      <div class="law-basis">
+        <p><strong>법적 기준:</strong> 공동주택관리법 제22조는 서면동의를 포함한 공동주택 관리 의사결정에 전자적 방법을 사용할 수 있도록 합니다. 시행령 제22조는 휴대전화 본인인증·전자서명 등의 본인확인과 투표 방법·기간의 사전 안내를 요구합니다.</p>
+        <p><strong>주의:</strong> 앱에서 진행한 모든 설문이 자동으로 법정 동의가 되는 것은 아닙니다. 우리 단지에서 전자투표 기능이 열려 있는지, 누가 해당 안건의 동의권자인지, 관리규약상 필요한 동의 수가 얼마인지를 관리사무소·입주자대표회의·선거관리위원회가 먼저 확인해야 합니다. 앱 사용이 어려운 세대를 위한 서면 또는 현장 참여 방법도 함께 두는 것이 좋습니다.</p>
+      </div>
+      <details>
+        <summary>서비스에 확인할 항목</summary>
+        <ul class="request-list">
+          <li>279세대 1회 투표의 이용료와 현장지원 비용</li>
+          <li>휴대전화 본인인증과 투표권자 명부 관리 방식</li>
+          <li>소유자·임차인, 공동소유자·대리인을 구분하는 방법</li>
+          <li>문자·카카오톡 링크와 앱 없는 참여 지원 여부</li>
+          <li>서면·현장투표 병행 시 중복 투표 방지 방식</li>
+          <li>결과증명서, 진행 기록, 개인정보 보관·폐기 기준</li>
+        </ul>
+      </details>
+      <details>
+        <summary>전자 의견조사에 넣을 질문 예시</summary>
+        <p><strong>아래 질문은 법정 동의가 아닌 사전 의견조사 예시입니다.</strong></p>
+        <ol class="request-list">
+          <li>등록차량을 다시 확인하고, 유예기간을 둔 뒤 기존 등록을 정리하는 과정이 필요하다고 보십니까?</li>
+          <li>최종 대책을 정하기 전에 2~4주간 야간 주차대수와 방문차량을 조사하는 것이 필요하다고 보십니까?</li>
+          <li>방문차량 등록은 앱과 전화·인터폰·관리사무소 접수를 함께 제공하는 것이 필요하다고 보십니까?</li>
+          <li>경비원 증원과 차단기 수리·교체를 비교할 때 어떤 기준을 가장 중요하게 보십니까?<br><span class="same-size">주차 개선 효과 / 3년·5년 전체 비용 / 고령층 이용 편의 / 고장·비상 대응</span></li>
+        </ol>
+      </details>
+    </section>
+
+    <section aria-labelledby="cooperate-title">
+      <h2 id="cooperate-title">갈등을 줄이는 진행 원칙</h2>
+      <ul>
+        <li>현재 자료만으로 관리사무소나 특정 업체의 잘못을 단정하지 않습니다.</li>
+        <li>“왜 안 했나”보다 “언제까지 어떤 자료를 함께 확인할까”라는 방식으로 협의합니다.</li>
+        <li>업체 비교는 관련 규정에 따라 복수 업체의 같은 기능과 같은 계약기간 견적을 비교합니다.</li>
+        <li>회의 전 자료를 주민에게 미리 공개하고, 질문을 모아 한 번에 전달합니다.</li>
+        <li>한 번에 최종 결론을 내기보다 재등록과 실측을 먼저 시행한 뒤 결과로 판단합니다.</li>
+      </ul>
+      <p class="plain-note"><strong>권장 표현:</strong> “특정 방안을 반대하기 위한 요청이 아니라, 주민 생활 개선을 위해 같은 자료를 보고 합리적으로 결정하자는 제안입니다.”</p>
+    </section>
+
+    <section aria-labelledby="law-title">
+      <h2 id="law-title">법과 절차에서 확인된 기본 틀</h2>
+      <div class="agency">
+        <h3>주차장 운영기준은 단지 안에서 정합니다</h3>
+        <p>공동주택관리법 시행령 제14조 제2항은 단지 안 주차장의 유지·운영 기준을 입주자대표회의 의결사항으로 두고 있습니다. 구체적인 등록 자격과 방문차량 방식은 우리 단지 관리규약과 주차관리규정을 함께 확인해야 합니다.</p>
+      </div>
+      <div class="agency">
+        <h3>전자투표와 전자동의를 사용할 수 있습니다</h3>
+        <p>공동주택관리법 제22조와 시행령 제22조에 따라 본인확인과 사전 안내 요건을 갖춘 전자적 의사결정이 가능합니다. 어느 서비스를 이용하더라도 해당 안건의 동의권자와 필요한 동의 수는 현행 관리규약을 기준으로 정해야 합니다.</p>
+      </div>
+      <div class="agency">
+        <h3>추가차량은 합리적인 범위에서 관리할 수 있습니다</h3>
+        <p>판례는 주차공간을 공정하게 이용하기 위한 추가차량의 시간·구역 제한을 인정한 사례가 있습니다. 다만 우리 단지에 적용하려면 실제 주차 부족 정도, 예외 기준, 주민 의견과 적법한 절차를 먼저 확인해야 합니다.</p>
+      </div>
+      <div class="agency">
+        <h3>감사나 분쟁 절차는 마지막 수단입니다</h3>
+        <p>법령·관리규약 위반이나 자료 열람 거부처럼 구체적인 문제가 확인됐을 때 구청 상담, 지도·감독, 감사 또는 분쟁조정을 검토합니다. 의견이 다르다는 이유만으로 먼저 사용하는 절차는 아닙니다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="request-title">
+      <h2 id="request-title">함께 검토할 자료</h2>
+      <p>관리사무소와 입주자대표회의에 협조를 요청해 아래 자료를 함께 확인하면 불필요한 오해를 줄일 수 있습니다.</p>
+      <ol class="request-list">
+        <li>현재 관리규약과 주차관리규정</li>
+        <li>2026년 8월 회의 공고, 안건서, 회의록, 의결 결과</li>
+        <li>등록차량 총수와 세대별 등록대수 분포<br><span class="same-size">개인정보를 뺀 숫자만 요청</span></li>
+        <li>전체 주차면 수와 최근 야간 주차 조사자료</li>
+        <li>재등록 시작일, 마감일, 처리 인원, 완료 예정일</li>
+        <li>경비원 증원의 업무, 근무표, 연간 비용, 세대당 관리비 증가액</li>
+        <li>차단기 수리·교체 및 차량번호를 자동으로 읽는 장치를 검토한 견적과 비교표</li>
+      </ol>
+    </section>
+
+    <section aria-labelledby="agency-title">
+      <h2 id="agency-title">외부 기관은 어디까지 도울 수 있나</h2>
+      <div class="agency">
+        <h3>관리사무소·입주자대표회의</h3>
+        <p>차량 등록, 방문차량 방식, 추가차량 기준, 차단기 운영처럼 실제 해결에 필요한 일을 맡습니다. 주민은 필요한 자료와 의견을 정리해 전달하고, 관리주체는 실행 가능성과 비용을 설명하는 협력 관계가 바람직합니다.</p>
+      </div>
+      <div class="agency">
+        <h3>강서구청 주택과</h3>
+        <p>관리규약, 회의 절차, 계약과 관리비 사용에 관한 상담·지도와 전문가 자문을 요청할 수 있습니다. 공개된 담당 전화는 <a href="tel:0226006790">02-2600-6790</a>입니다.</p>
+      </div>
+      <div class="agency">
+        <h3>경찰·소방·구청 단속부서</h3>
+        <p>일반적인 아파트 내부 무단주차를 늘 단속해 주기는 어렵습니다. 다만 출입구나 소방통로를 막거나 사고·폭력·시설 파손이 생긴 긴급 상황은 즉시 신고해야 합니다. 장애인주차구역과 전기차 충전구역처럼 별도 법이 있는 위반도 신고할 수 있습니다.</p>
+      </div>
+      <div class="agency">
+        <h3>감사 요청</h3>
+        <p>법령이나 관리규약 위반, 회의·계약·회계 절차의 구체적인 문제가 있을 때 검토할 수 있습니다. 현재 법은 전체 입주자 등의 20% 이상 동의와 근거자료를 요구합니다. 279세대를 단순 대입하면 56이지만, 실제 필요한 동의 수와 동의 자격은 입주자 등 명부와 구청 안내로 확인해야 합니다.</p>
+      </div>
+      <div class="callout">
+        <strong>2026년 8월 28일부터 달라지는 점</strong><br>
+        주차장 출입구를 차량으로 막아 다른 차가 드나들지 못하게 한 경우, 관리자가 이동을 권고하고 불응하면 지자체에 조치를 요청할 수 있는 법적 근거가 시행될 예정입니다. 지자체가 요건을 확인한 뒤 견인 등의 조치를 할 수 있으며, 일반 주차면의 모든 무단주차를 단속하는 제도는 아닙니다.
+      </div>
+    </section>
+
+    <section aria-labelledby="final-title">
+      <h2 id="final-title">최종 판단</h2>
+      <p class="big"><strong>가장 현실적인 첫 조치는 ‘등록차량 전면 재등록 + 야간 실제 주차 조사’입니다.</strong></p>
+      <p>이 과정은 큰 비용 없이 시작할 수 있고, 문제의 원인이 잘못된 등록인지, 입주민 추가차량 과다인지, 방문·외부차량 유입인지 나누어 볼 수 있습니다.</p>
+      <p>그 결과를 공개한 뒤 경비원 증원, 차단기 수리, 새 시스템 도입의 3년·5년 비용과 효과를 비교해야 합니다. 고령층을 위해 방문차량은 앱만 강제하지 말고 전화나 인터폰 등록을 반드시 함께 두는 것이 좋습니다.</p>
+      <p>안건별로 관리규약을 확인해 입주자대표회의 의결, 주민 의견조사 또는 법정 동의 가운데 필요한 절차를 진행해야 합니다. 전자투표가 필요한 경우에는 현재 아파트아이 기능을 먼저 확인하고, 사용할 수 없다면 국토교통부·LH의 아파트 e투표와 민간 대안을 같은 조건으로 비교합니다. 어느 방식을 선택하든 동의권자·본인확인·사전 안내 요건을 갖추어야 합니다.</p>
+      <details>
+        <summary>근거 자료와 확인한 공식 자료 보기</summary>
+        <ul class="source-list">
+          <li><a href="https://www.law.go.kr/lsLinkCommonInfo.do?chrClsCd=010202&amp;lsJoLnkSeq=1027725341">공동주택관리법 제93조 — 감사 요청 기준</a></li>
+          <li><a href="https://www.law.go.kr/LSW/lsPdfPrint.do?ancYnChk=0&amp;bylChaChk=N&amp;efGubun=Y&amp;efYd=20240425&amp;joAllCheck=Y&amp;lsiSeq=255407&amp;mokChaChk=N">공동주택관리법 제22조 — 전자적 방법을 통한 의사결정</a></li>
+          <li><a href="https://law.go.kr/lsLinkCommonInfo.do?lspttninfSeq=124731">공동주택관리법 시행령 제22조 — 본인확인과 사전 안내</a></li>
+          <li><a href="https://www.law.go.kr/LSW/lsSideInfoP.do?docCls=jo&amp;joBrNo=00&amp;joNo=0014&amp;lsiSeq=287261&amp;urlMode=lsScJoRltInfoR">공동주택관리법 시행령 제14조 — 단지 안 주차장 유지·운영 기준</a></li>
+          <li><a href="https://www.apti.co.kr/">아파트아이 공식 안내 — 전자투표 기능</a></li>
+          <li><a href="https://myapt.molit.go.kr/evote/webEvoteMain.do">국토교통부·LH 중앙공동주택관리지원센터 — 아파트 e투표</a></li>
+          <li><a href="https://www.aptstory.kr/home/homepage.php?homefile=s3_6.html">아파트스토리 — 전자투표·전자서명 기능 안내</a></li>
+          <li><a href="https://aptner.oopy.io/">아파트너 — 전자투표 자료와 문의처</a></li>
+          <li><a href="https://www.bkwinner.co.kr/files/bkwinner_introduction.pdf">아파트리 — 전자투표·설문조사 기능 안내</a></li>
+          <li><a href="https://openapt.seoul.go.kr/commonPortal/programLink.do?jspNm=%2Fportal%2FcMenu%2FclearAptInfo%2FonlineVote.open">서울시 공동주택 온라인투표 지원 안내</a></li>
+          <li><a href="https://www.law.go.kr/nwRvsLsInfoR.do?lsiSeq=283743">2026년 개정 주차장법 — 출입구 방해 차량 관련</a></li>
+          <li><a href="https://www.gangseo.seoul.kr/gs050471">강서구청 주택과 업무와 연락처</a></li>
+          <li><a href="https://openapt.seoul.go.kr/include/mngAgreeInfo.html">서울시 공동주택 관리규약 준칙·통합정보마당</a></li>
+          <li><a href="https://myapt.molit.go.kr/consult/webConsultGuide.do">중앙공동주택관리지원센터 상담·온라인 컨설팅</a></li>
+        </ul>
+      </details>
+    </section>
+
+    <footer>
+      <p>이 문서는 주민 간 상황 공유와 논의를 위한 자료입니다. 구체적인 법률·계약 판단은 관리규약 원문과 실제 회의·계약 자료를 확인한 뒤 관계 기관 또는 전문가에게 문의해야 합니다.</p>
+    </footer>
+  </main>
+
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const status = document.getElementById('size-status');
+      const smallerButton = document.getElementById('smaller');
+      const largerButton = document.getElementById('larger');
+      let size = 19;
+      const applySize = () => {
+        root.style.setProperty('--body-size', `${size}px`);
+        status.textContent = `본문 글자 크기 ${size}픽셀`;
+        smallerButton.disabled = size <= 17;
+        largerButton.disabled = size >= 25;
+      };
+
+      largerButton.addEventListener('click', () => {
+        size = Math.min(25, size + 2);
+        applySize();
+      });
+
+      smallerButton.addEventListener('click', () => {
+        size = Math.max(17, size - 2);
+        applySize();
+      });
+
+      document.getElementById('print').addEventListener('click', () => window.print());
+    })();
+  </script>
+</body>
+</html>
