@@ -1,3 +1,14 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#15181e">
+<meta name="format-detection" content="telephone=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>주차 실사 카운터</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,7 +41,7 @@
 
   body {
     margin: 0;
-    padding: 18px 16px 104px;
+    padding: 18px calc(16px + env(safe-area-inset-right)) 104px calc(16px + env(safe-area-inset-left));
     background: var(--ground);
     color: var(--text);
     font-family: var(--sans);
@@ -116,7 +127,7 @@
     border-radius: 10px;
     background: var(--surface-2);
     font-family: var(--mono);
-    font-size: 15px;
+    font-size: 16px;
     color-scheme: dark;
   }
 
@@ -290,7 +301,7 @@
     border: 1px solid var(--line);
     border-radius: 10px;
     background: var(--surface-2);
-    font-size: 14.5px;
+    font-size: 16px;
     line-height: 1.55;
     resize: vertical;
   }
@@ -448,7 +459,7 @@
     right: 0;
     bottom: 0;
     z-index: 20;
-    padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+    padding: 10px calc(16px + env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left));
     border-top: 1px solid var(--line-soft);
     background: rgba(21, 24, 30, 0.94);
     backdrop-filter: blur(12px);
@@ -503,6 +514,8 @@
     .pad button:active { transform: none; }
   }
 </style>
+</head>
+<body>
 
 <div class="wrap">
   <header>
@@ -1045,3 +1058,5 @@
     renderRecords();
   })();
 </script>
+</body>
+</html>
