@@ -411,6 +411,59 @@
 
     .same-size { font-size: 1em; }
 
+    .fee-table-wrap {
+      margin-top: 22px;
+      overflow-x: auto;
+    }
+
+    .fee-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 17px;
+      line-height: 1.5;
+    }
+
+    .fee-table th,
+    .fee-table td {
+      padding: 13px 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: right;
+      vertical-align: top;
+    }
+
+    .fee-table th:first-child,
+    .fee-table td:first-child { text-align: left; }
+
+    .fee-table th {
+      background: #f3f6f1;
+      color: #33443a;
+      font-weight: 800;
+    }
+
+    .fee-table td strong { color: var(--green); }
+
+    .fee-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .fee-card {
+      padding: 20px;
+      border-radius: 15px;
+      background: var(--green-soft);
+    }
+
+    .fee-card strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--green);
+      font-size: 25px;
+    }
+
+    .fee-card span { color: #405348; font-size: 16px; }
+
     .sr-only {
       position: absolute;
       width: 1px;
@@ -436,6 +489,7 @@
       main { width: min(calc(100% - 22px), var(--max-width)); padding-top: 28px; }
       section { padding: 25px 20px; border-radius: 18px; }
       .facts, .compare, .principles, .agreement-points, .vote-flow, .service { grid-template-columns: 1fr; }
+      .fee-cards { grid-template-columns: 1fr; }
       .fact { display: flex; align-items: baseline; gap: 12px; }
       .fact .label { margin-top: 0; }
     }
@@ -572,6 +626,54 @@
         <li>차단기 수리·교체 및 차량번호 인식 시스템의 설치비와 유지비</li>
       </ul>
       <p class="plain-note">이 정보가 없으면 “경비원이 더 싸다”, “차단기가 더 낫다”, “외부차량이 많다”는 어느 주장도 확인할 수 없습니다.</p>
+    </section>
+
+    <section aria-labelledby="fee-title">
+      <h2 id="fee-title">추가 차량 요금은 어떤 수준인가</h2>
+      <p>추가 차량 요금은 주차 공간의 여유와 단지 규정에 따라 달라집니다. 서울시가 2019년 1,851개 아파트 단지를 조사한 자료에서는 세대 차량 1대를 무료로 허용한 단지가 97% 이상이었습니다.</p>
+      <p>그 조사에서 두 번째 차량의 월 요금은 전용면적에 따라 1만6,500원~2만3,400원이었습니다. 면적별 단지 수를 반영한 서울 전체 가중평균은 아니므로, 대표값을 단정하기보다는 참고 범위로 보는 것이 안전합니다.</p>
+      <p>우리 단지는 공개된 자료상 279세대와 주차면 322면으로, 세대당 약 1.15면입니다. 다만 이 수치는 공식 시설자료와 현재 실제 사용 가능한 면수를 다시 확인한 뒤 사용해야 합니다.</p>
+
+      <div class="fee-table-wrap">
+        <table class="fee-table">
+          <caption class="sr-only">서울시 2019년 조사에서 두 번째 차량에 부과한 월 요금과 2026년 물가 환산값</caption>
+          <thead>
+            <tr>
+              <th scope="col">세대 전용면적</th>
+              <th scope="col">2019년 조사</th>
+              <th scope="col">2026년 물가 환산</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>60㎡ 이하</td><td>23,400원</td><td><strong>약 28,200원</strong></td></tr>
+            <tr><td>60~85㎡</td><td>21,100원</td><td><strong>약 25,400원</strong></td></tr>
+            <tr><td>85~135㎡</td><td>18,600원</td><td><strong>약 22,400원</strong></td></tr>
+            <tr><td>135㎡ 초과</td><td>16,500원</td><td><strong>약 19,900원</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="fee-cards" aria-label="2026년 비교 기준">
+        <div class="fee-card"><strong>약 2만4천원</strong><span>2019년 서울시 평균의 2026년 물가 환산 대표값</span></div>
+        <div class="fee-card"><strong>약 3만원</strong><span>2026년 현재 주민 비교용으로 이해하기 쉬운 일반 기준</span></div>
+        <div class="fee-card"><strong>5만원 이상</strong><span>주차 공간이 특히 부족한 단지에서 쓰이는 억제 기준</span></div>
+      </div>
+
+      <div class="callout">
+        <strong>우리 단지에 바로 적용할 금액은 아닙니다.</strong><br>
+        서울시 공식 조사는 2019년 자료이고, 최근 단지 사례는 관리규약 원문이 아닌 매물 설명이나 기사에 기초한 경우가 있습니다. 따라서 우리 단지의 추가 차량 요금은 실제 주차면수, 야간 주차대수, 세대별 차량 수, 관리규약을 확인한 뒤 정해야 합니다. 요금만 먼저 올리기보다 등록 명단과 실제 주차 상황을 먼저 확인하는 것이 순서입니다.
+      </div>
+
+      <details>
+        <summary>서울시 자료와 2026년 환산 방법</summary>
+        <p>제공된 소비자물가지수 기준으로 2019년 금액에 약 1.204를 곱해 2026년 현재가치를 계산했습니다. 물가 환산은 참고용일 뿐이며, 주차요금은 주차 공간 부족을 줄이기 위한 정책 성격도 있어 실제 규정은 단지별로 달라질 수 있습니다.</p>
+        <ul class="source-list">
+          <li><a href="https://news.seoul.go.kr/citybuild/archives/504642?listPage=7">서울시 아파트 주차관리 실태조사</a></li>
+          <li><a href="https://www.kmib.co.kr/article/view.asp?arcid=0013461507">서울시 조사 결과 보도자료</a></li>
+          <li><a href="https://mods.go.kr/cpi/">통계청 소비자물가지수</a></li>
+          <li><a href="https://www.seoul.co.kr/news/newsView.php?id=20241105012001">최근 다차량 주차요금 사례 보도</a></li>
+        </ul>
+      </details>
     </section>
 
     <section aria-labelledby="plan-title">
