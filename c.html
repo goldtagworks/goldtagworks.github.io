@@ -434,7 +434,9 @@
 
   .empty { margin: 12px 0 0; color: var(--faint); font-size: 13px; }
 
-  .reset-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .reset-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px 12px; }
+
+  .reset-acts { display: flex; flex-wrap: wrap; gap: 8px; margin-left: auto; }
 
   .saved { color: var(--faint); font-size: 12px; }
 
@@ -667,10 +669,13 @@
 
   <div class="reset-row">
     <span class="saved">숫자는 이 기기에 자동 저장됩니다.</span>
-    <button type="button" class="danger" id="reset">전체 초기화</button>
+    <div class="reset-acts">
+      <button type="button" class="mini" id="reset-today">오늘 카운트만 초기화</button>
+      <button type="button" class="danger" id="reset">전체 초기화</button>
+    </div>
   </div>
 
-  <footer>새 조사를 시작할 때만 초기화하세요. 초기화하면 되돌릴 수 없습니다.</footer>
+  <footer>오늘 카운트만 초기화하면 날짜·시각·비고는 그대로 남습니다. 초기화 전 숫자는 조사 기록에 자동 저장됩니다.</footer>
 </div>
 
 <div class="bar">
@@ -958,6 +963,17 @@
 
     $('#now-start').addEventListener('click', () => { els.start.value = nowHM(); state.start = els.start.value; save(); render(); });
     $('#now-end').addEventListener('click', () => { els.end.value = nowHM(); state.end = els.end.value; save(); render(); });
+
+    $('#reset-today').addEventListener('click', (e) => {
+      const hasData = recTotal(state) > 0;
+      if (!confirmTap(e.currentTarget, hasData ? '기록하고 0으로' : '정말 0으로')) return;
+      if (hasData) storeRecord(true);
+      KEYS.forEach((k) => { state.c[k] = 0; });
+      undoStack = [];
+      save();
+      render();
+      toast(hasData ? '기록에 저장한 뒤 카운트만 0으로 만들었습니다.' : '카운트를 0으로 만들었습니다.');
+    });
 
     $('#reset').addEventListener('click', (e) => {
       const hasData = recTotal(state) > 0;
